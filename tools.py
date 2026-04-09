@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 import secrets
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -16,25 +16,6 @@ FULL_MESSAGE_FETCH_ATTEMPTS = 4
 FULL_MESSAGE_FETCH_DELAY_SECONDS = 0.75
 KEYBOARD_UNSUPPORTED_ERROR_CODE = 912
 KEYBOARDS_AVAILABLE: bool | None = None
-
-
-@dataclass
-class PendingPost:
-    text: str
-    attachments: list[str] = field(default_factory=list)
-
-    def is_empty(self) -> bool:
-        return not self.text and not self.attachments
-
-    def preview(self, limit: int = 200) -> str:
-        if not self.text:
-            return "<без текста>"
-
-        normalized = " ".join(self.text.split())
-        if len(normalized) <= limit:
-            return normalized
-
-        return normalized[: limit - 3] + "..."
 
 
 @dataclass(frozen=True)
